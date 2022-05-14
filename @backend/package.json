@@ -1,0 +1,8 @@
+{
+  "name": "rails-salary-app-backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "rails": "rails s"
+  }
+}

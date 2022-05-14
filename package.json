@@ -1,0 +1,9 @@
+{
+  "name": "rails-salary-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "yarn --cwd @frontend start",
+    "rails": "yarn --cwd @backend rails"
+  }
+}
