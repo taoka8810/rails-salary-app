@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { getSalary } from "./api/Work";
 
 export const CurrentSalary: React.VFC = () => {
-  const value = 150000;
+  const [value, setValue] = useState(0);
+  const fetch = async () => {
+    const val = await getSalary();
+    setValue(val.data);
+  };
+  useEffect(() => {
+    fetch();
+  });
   return (
     <Style>
       <div className="p-current-salary">

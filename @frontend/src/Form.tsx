@@ -1,27 +1,41 @@
 import React, { useState } from "react";
-import { Button } from "./Button";
-import axios from "axios";
+import { createWork } from "./api/Work";
+import { FlashMessage } from "./FlashMessage";
+
+type FlashMessageType = "positive" | "error";
 
 export const Form: React.VFC = () => {
+  // backendに渡すデータ
   const [startTime, setStartTime] = useState("");
   const [finishTime, setFinishTime] = useState("");
   const [date, setDate] = useState("");
 
-  const createWorktime = async () => {
+  // FlashMessage関係のState
+  const [FMText, setFMText] = useState("");
+  const [FMType, setFMType] = useState<FlashMessageType>("positive");
+  const [isVisible, setIsVisible] = useState(false);
+
+  // 登録ボタンのonClickメソッド
+  const onClick = () => {
     const worktime = timeTranslate(startTime, finishTime);
     const salary = worktime * 1200;
     const dateNum = dateTranslate(date);
-    await axios
-      .post("http://localhost:4000/worktimes", {
-        worktime: worktime,
-        salary: salary,
-        date: dateNum,
-      })
-      .then(() => {
+    if (startTime === "" || finishTime === "" || date === "") {
+      setFMText("全ての項目を入力してください");
+      setFMType("error");
+      setIsVisible(true);
+    } else if (worktime < 0) {
+      setFMText("終業時刻は始業時刻よりも前の時間に設定してください");
+      setFMType("error");
+      setIsVisible(true);
+    } else {
+      createWork(worktime, salary, dateNum).then(() => {
         setStartTime("");
         setFinishTime("");
         setDate("");
+        window.location.reload();
       });
+    }
   };
 
   // 始業時刻と終業時刻から業務時間を算出する
@@ -70,8 +84,9 @@ export const Form: React.VFC = () => {
         />
       </div>
       <div className="p-form__button">
-        <Button text="登録する" onClick={createWorktime} />
+        <button onClick={onClick}>登録する</button>
       </div>
+      <FlashMessage text={FMText} type={FMType} isVisible={isVisible} />
     </div>
   );
 };
