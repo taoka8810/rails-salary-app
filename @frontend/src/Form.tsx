@@ -19,7 +19,6 @@ export const Form: React.VFC = () => {
         setStartTime("");
         setFinishTime("");
         setDate("");
-        console.log("処理が完了しました");
       });
   };
 

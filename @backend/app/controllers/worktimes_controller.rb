@@ -5,13 +5,13 @@ class WorktimesController < ApplicationController
   end
 
   def create
-    Worktime.create(params)
+    Worktime.create(worktime_params)
     head :created
   end
 
   private
 
-  def params
+  def worktime_params
     params.permit(:worktime, :date)
   end
 
