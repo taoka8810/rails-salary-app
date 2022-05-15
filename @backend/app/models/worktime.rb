@@ -1,2 +1,0 @@
-class Worktime < ApplicationRecord
-end

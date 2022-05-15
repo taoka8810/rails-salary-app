@@ -7,12 +7,14 @@ export const Form: React.VFC = () => {
   const [finishTime, setFinishTime] = useState("");
   const [date, setDate] = useState("");
 
-  const onClick = async () => {
+  const createWorktime = async () => {
     const worktime = timeTranslate(startTime, finishTime);
+    const salary = worktime * 1200;
     const dateNum = dateTranslate(date);
     await axios
       .post("http://localhost:4000/worktimes", {
         worktime: worktime,
+        salary: salary,
         date: dateNum,
       })
       .then(() => {
@@ -68,7 +70,7 @@ export const Form: React.VFC = () => {
         />
       </div>
       <div className="p-form__button">
-        <Button text="登録する" onClick={onClick} />
+        <Button text="登録する" onClick={createWorktime} />
       </div>
     </div>
   );
